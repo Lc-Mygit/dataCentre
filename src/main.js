@@ -37,6 +37,7 @@ Vue.use(util);
 Vue.use(Vuex);
 
 
+
 // Vue.use(CKEditor);
 
 import permission from './directive'

@@ -3,7 +3,7 @@
     <el-row :gutter="12">
       <el-col :span="8">
         <div class="top-pagename">
-           <div class="line"></div>用户来源
+          <div class="line"></div>用户来源
         </div>
       </el-col>
     </el-row>
@@ -16,7 +16,7 @@
       <el-col :span="6" :xs="14" :sm="10" :md="6" :lg="6">
         <el-card shadow="hover">
           <el-date-picker
-           style="width:100%"
+            style="width:100%"
             v-model="dateRangeValue"
             type="daterange"
             range-separator="至"
@@ -38,34 +38,119 @@
           </el-select>
         </el-card>
       </el-col>
-     </el-row>
-        
-     <!-- 用户来源图表区域 -->
-     <div class="userSourceChart-Box">
-        <el-row>
-            <el-col :span="24" :xs="24" :sm="24" :md="24" :lg="24">
-                    <el-card shadow="hover" style="margin-top:15px"> 
-                        <div class="userSource-title">用户来源</div>
-                        <div class="Button-group"> 
-                             <el-checkbox-group v-model="Button_userSourceVal">
-                                <el-checkbox-button v-for="(item,index) in userSourceEchartArr" :label="item" :key="index">{{item}}</el-checkbox-button>
-                            </el-checkbox-group>
-                        </div>
-                    </el-card>
-            </el-col>
-        </el-row>     
-    </div>
-    
-    
+    </el-row>
 
+    <!-- 用户来源图表区域 -->
+    <div class="userSourceChart-Box">
+      <el-row>
+        <el-col :span="24" :xs="24" :sm="24" :md="24" :lg="24">
+          <el-card shadow="hover" style="margin-top:15px">
+            <div class="userSource-title">用户来源</div>
+            <div class="Button-group">
+              <el-button-group>
+                <el-button plain @click="EvtuserSource('新增用户')">新增用户</el-button>
+                <el-button plain @click="EvtuserSource('活跃用户')">活跃用户</el-button>
+                <el-button plain @click="EvtuserSource('启动次数')">启动次数</el-button>
+                <el-button plain @click="EvtuserSource('平均单次使用时长')">平均单次使用时长</el-button>
+                <el-button plain @click="EvtuserSource('平均单日使用时长')">平均单日使用时长</el-button>
+                <el-button plain @click="EvtuserSource('用户留存率')">用户留存率</el-button>
+              </el-button-group>
+            </div>
+            <div class="echart-Box">
+              <div id="chartdata" style="width:1200px;height:500px"></div>
+            </div>
+          </el-card>
+        </el-col>
+      </el-row>
+    </div>
+    <!-- 表格统计区域 -->
+    <div class="table-Box">
+      <el-card shadow="hover">
+        <el-row :gutter="10" type="flex" justify="space-between">
+          <el-col :span="2" :xs="10" :sm="8" :md="4" :lg="2">
+            <el-select v-model="selectTableVal" clearable placeholder="请选择" style="width:100%">
+              <el-option
+                v-for="item in channelArr"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"
+              ></el-option>
+            </el-select>
+          </el-col>
+          <!-- 今日，近七天，近30天 -->
+          <el-col :span="12" :xs="20" :sm="18" :md="16" :lg="12">
+            <el-button-group>
+              <el-button plain @click="LatestTimeDate('今日')">今日</el-button>
+              <el-button plain @click="LatestTimeDate('近7天')">近7天</el-button>
+              <el-button plain @click="LatestTimeDate('近30天')">近30天</el-button>
+            </el-button-group>
+            <!-- 日期选择范围 -->
+            <el-date-picker
+              style="width:230px"
+              v-model="dateRangeValue"
+              type="daterange"
+              range-separator="至"
+              start-placeholder="开始日期"
+              end-placeholder="结束日期"
+              value-format="yyyy-MM-dd"
+            ></el-date-picker>
+            <!--导出-->
+            <el-button type="primary" round icon="el-icon-download">导出</el-button>
+          </el-col>
+        </el-row>
+        <!-- 表格内容区域 -->
+        <div class="table-contain">
+          <el-row>
+              <el-table
+                :data="tableData"
+                style="width: 100%"
+                :default-sort="{prop: 'date', order: 'descending'}"
+              >
+                <el-table-column prop="date" label="渠道名称" sortable width="180"></el-table-column>
+                <el-table-column prop="name" label="新增用户" sortable width="180"></el-table-column>
+                <el-table-column prop="address" label="活跃用户"  sortable :formatter="formatter"></el-table-column>
+
+                <el-table-column prop="date" label="启动次数" sortable width="180"></el-table-column>
+                <el-table-column prop="name" label="平均单次使用时长" sortable width="180"></el-table-column>
+                <el-table-column prop="name" label="平均单日使用时长"  sortable :formatter="formatter"></el-table-column>
+                 <el-table-column prop="name" label="用户留存率"  sortable :formatter="formatter"></el-table-column>
+              </el-table>
+            </el-row>  
+        </div>
+      </el-card>
+    </div>
   </div>
 </template>    
 
 <script>
+// import echarts from 'echarts';
 export default {
   name: "userSource",
   data() {
     return {
+      tableData: [
+        {
+          //表格的排序数据
+          date: "2016-05-02",
+          name: "王小虎",
+          address: "上海市普陀区金沙江路 1518 弄"
+        },
+        {
+          date: "2016-05-04",
+          name: "王小虎",
+          address: "上海市普陀区金沙江路 1517 弄"
+        },
+        {
+          date: "2016-05-01",
+          name: "王小虎",
+          address: "上海市普陀区金沙江路 1519 弄"
+        },
+        {
+          date: "2016-05-03",
+          name: "王小虎",
+          address: "上海市普陀区金沙江路 1516 弄"
+        }
+      ],
       channelArr: [
         {
           value: "全部来源",
@@ -97,26 +182,121 @@ export default {
         }
       ],
       dateRangeValue: "", //日期范围的值
-      selectChannelVal:"全部来源", //用户来源下拉选中的值,
-      Button_userSourceVal:[],      
-      userSourceEchartArr:["新增用户","活跃用户","启动次数","平均单次使用时长","平均单日使用时长","用户留存率"]
+      selectChannelVal: "全部来源", //用户来源下拉选中的值,
+      selectTableVal: "全部来源", //表格部分的下拉选择的值
+      charts: "" //存储图表的元素id
     };
   },
   watch: {
-    'dateRangeValue': function(val) {
+    dateRangeValue: function(val) {
       console.log(this.dateRangeValue, "监听值");
-    },
-    'Button_userSourceVal':function(){
-       
-        if( this.Button_userSourceVal.length > 1 ){
-            alert("删除");
-            this.Button_userSourceVal.splice(0,1)
-        }
-         console.log(this.Button_userSourceVal,"监听选项")
     }
   },
-  mouthods() {},
-  mounted() {}
+  methods: {
+    //今日，近七天，近30天的筛选
+    LatestTimeDate(val) {
+      console.log(val);
+    },
+    //点击用户来源 显示图表
+    EvtuserSource(val) {
+      console.log(val);
+    },
+    //画折线图
+    drawlineChart(id) {
+      this.charts = this.$echarts.init(document.getElementById(id));
+      this.charts.setOption({
+        title: {
+          text: "折线图堆叠"
+        },
+        tooltip: {
+          trigger: "axis"
+        },
+        legend: {
+          data: [
+            "智小美",
+            "智智小店",
+            "智智物业",
+            "智小充",
+            "智智校园",
+            "单位职工"
+          ]
+        },
+        grid: {
+          left: "3%",
+          right: "4%",
+          bottom: "3%",
+          containLabel: true
+        },
+        toolbox: {
+          feature: {
+            saveAsImage: {}
+          }
+        },
+        xAxis: {
+          type: "category",
+          boundaryGap: false,
+          data: [
+            "2019-11-01",
+            "2019-11-02",
+            "2019-11-03",
+            "2019-11-04",
+            "2019-11-05",
+            "2019-11-06",
+            "2019-11-11"
+          ]
+        },
+        yAxis: {
+          type: "value"
+        },
+        series: [
+          {
+            name: "智小美",
+            type: "line",
+            stack: "总量",
+            data: [1200, 2800, 3421, 3564, 3356, 2335, 4203]
+          },
+          {
+            name: "智智小店",
+            type: "line",
+            stack: "总量",
+            data: [2200, 3232, 4201, 3482, 3156, 3185, 4500]
+          },
+          {
+            name: "智智物业",
+            type: "line",
+            stack: "总量",
+            data: [2150, 3232, 4201, 3154, 3190, 2330, 3410]
+          },
+          {
+            name: "智小充",
+            type: "line",
+            stack: "总量",
+            data: [2356, 3332, 4301, 3334, 4390, 5330, 3320]
+          },
+          {
+            name: "智智校园",
+            type: "line",
+            stack: "总量",
+            data: [3820, 2932, 4901, 3934, 2290, 3330, 4320]
+          },
+          {
+            name: "单位职工",
+            type: "line",
+            stack: "总量",
+            data: [3820, 4932, 3901, 3934, 4290, 3330, 3900]
+          }
+        ]
+      });
+
+      //drawlineChart
+    }
+  },
+  mounted() {
+    //图表的初始化
+    this.$nextTick(function() {
+      this.drawlineChart("chartdata");
+    });
+  }
 };
 </script>
 
@@ -144,12 +324,21 @@ export default {
   font-size: 22px;
   font-weight: bold;
 }
-.userSourceChart-Box .userSource-title{
-    font-size: 22px;
-    font-weight: bold;
+.userSourceChart-Box .userSource-title {
+  font-size: 22px;
+  font-weight: bold;
 }
-.userSourceChart-Box .Button-group{
-    margin-top: 40px;
+.userSourceChart-Box .Button-group {
+  margin-top: 40px;
 }
+.userSource-Box .echart-Box {
+  margin-top: 35px;
+}
+.userSource-Box .table-Box {
+  margin-top: 15px;
+}
+.userSource-Box .table-contain{
+  margin-top: 30px;
 
+}
 </style>
