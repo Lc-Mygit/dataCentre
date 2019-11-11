@@ -108,7 +108,8 @@ export default {
     },
     'Button_userSourceVal':function(){
        
-        if( this.Button_userSourceVal > 1 ){
+        if( this.Button_userSourceVal.length > 1 ){
+            alert("删除");
             this.Button_userSourceVal.splice(0,1)
         }
          console.log(this.Button_userSourceVal,"监听选项")
