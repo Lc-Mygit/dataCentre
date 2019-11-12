@@ -5,9 +5,12 @@
 // import ElementUI from 'element-ui';
 // import axios from 'axios'
 
-// 引入echarts图表
+//引入时间日期的封装的方法
+require("./../static/js/Timeformat");
+//引用阿里巴巴矢量图库
+import '@/assets/icons/iconfont.css';
+// 引入echarts图表 
 import echarts from 'echarts'
-
 
 import App from './App'
 import router from './router'

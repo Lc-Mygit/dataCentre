@@ -57,7 +57,7 @@
               </el-button-group>
             </div>
             <div class="echart-Box">
-              <div id="chartdata" style="width:1200px;height:500px"></div>
+              <div id="chartdata" style="width:1200px;height:600px"></div>
             </div>
           </el-card>
         </el-col>
@@ -67,8 +67,8 @@
     <div class="table-Box">
       <el-card shadow="hover">
         <el-row :gutter="10" type="flex" justify="space-between">
-          <el-col :span="2" :xs="10" :sm="8" :md="4" :lg="2">
-            <el-select v-model="selectTableVal" clearable placeholder="请选择" style="width:100%">
+          <el-col :span="2" :xs="10" :sm="12" :md="6" :lg="2">
+            <el-select v-model="selectTableVal" clearable placeholder="请选择"  style="width:130px">
               <el-option
                 v-for="item in channelArr"
                 :key="item.value"
@@ -78,7 +78,7 @@
             </el-select>
           </el-col>
           <!-- 今日，近七天，近30天 -->
-          <el-col :span="12" :xs="20" :sm="18" :md="16" :lg="12">
+          <el-col :span="12" :xs="20" :sm="20" :md="16" :lg="12">
             <el-button-group>
               <el-button plain @click="LatestTimeDate('今日')">今日</el-button>
               <el-button plain @click="LatestTimeDate('近7天')">近7天</el-button>
@@ -95,25 +95,27 @@
               value-format="yyyy-MM-dd"
             ></el-date-picker>
             <!--导出-->
-            <el-button type="primary" round icon="el-icon-download">导出</el-button>
+            <el-button type="primary" icon="el-icon-upload2" @click="downloadTable()" :loading="downloadLoading">导出</el-button>
+          
           </el-col>
         </el-row>
         <!-- 表格内容区域 -->
         <div class="table-contain">
           <el-row>
-              <el-table
+              <el-table 
+                :header-cell-style="{background:'#f5f5f5',color:'#606266'}"
                 :data="tableData"
                 style="width: 100%"
-                :default-sort="{prop: 'date', order: 'descending'}"
+                :default-sort="{prop:'cumulative', order: 'descending'}"
               >
-                <el-table-column prop="date" label="渠道名称" sortable width="180"></el-table-column>
-                <el-table-column prop="name" label="新增用户" sortable width="180"></el-table-column>
-                <el-table-column prop="address" label="活跃用户"  sortable :formatter="formatter"></el-table-column>
+                <el-table-column prop="name" label="渠道名称" sortable width="180"  align='center'></el-table-column>
+                <el-table-column prop="newUsers" label="新增用户" sortable width="180" align='center'></el-table-column>
+                <el-table-column prop="activeUser" label="活跃用户"  sortable align='center'></el-table-column>
 
-                <el-table-column prop="date" label="启动次数" sortable width="180"></el-table-column>
-                <el-table-column prop="name" label="平均单次使用时长" sortable width="180"></el-table-column>
-                <el-table-column prop="name" label="平均单日使用时长"  sortable :formatter="formatter"></el-table-column>
-                 <el-table-column prop="name" label="用户留存率"  sortable :formatter="formatter"></el-table-column>
+                  <el-table-column prop="startCount" label="启动次数" sortable width="180" align='center'></el-table-column>
+                  <el-table-column prop="firstStart" label="平均单次使用时长" sortable width="180" align='center'></el-table-column>
+                  <el-table-column prop="dayUse" label="平均单日使用时长"  sortable align='center'></el-table-column>
+                  <el-table-column prop="cumulative" label="累计用户%"  sortable  align='center'></el-table-column>
               </el-table>
             </el-row>  
         </div>
@@ -123,32 +125,77 @@
 </template>    
 
 <script>
-// import echarts from 'echarts';
+
+//引入导出Excel文件的依赖。
+import FileSaver from "file-saver";
+import XLSX from "xlsx";
+
 export default {
   name: "userSource",
   data() {
     return {
+      downloadLoading:false,
       tableData: [
         {
           //表格的排序数据
+          name: "智小美",
+          newUsers:62,
+          activeUser:"2,292",
+          startCount:"19,899", 
+          firstStart:"00:00:22",
+          dayUse:"00:00:22",
           date: "2016-05-02",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1518 弄"
+          cumulative : "3,639(100%)"
         },
         {
-          date: "2016-05-04",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1517 弄"
+          name: "智智小店",
+          newUsers:62,
+          activeUser:"2,292",
+          startCount:"19,899", 
+          firstStart:"00:00:22",
+          dayUse:"00:00:22",
+          date: "2016-05-02",
+          cumulative : "3,639(100%)"
         },
         {
-          date: "2016-05-01",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1519 弄"
+          name: "单位职工",
+          newUsers:62,
+          activeUser:"2,292",
+          startCount:"19,899", 
+          firstStart:"00:00:22",
+          dayUse:"00:00:22",
+          date: "2016-05-02",
+          cumulative : "3,639(100%)"
         },
         {
-          date: "2016-05-03",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1516 弄"
+          name: "智智物业",
+          newUsers:62,
+          activeUser:"2,292",
+          startCount:"19,899", 
+          firstStart:"00:00:22",
+          dayUse:"00:00:22",
+          date: "2016-05-02",
+          cumulative : "3,639(100%)"
+        },
+        {
+          name: "智小充",
+          newUsers:62,
+          activeUser:"2,292",
+          startCount:"19,899", 
+          firstStart:"00:00:22",
+          dayUse:"00:00:22",
+          date: "2016-05-02",
+          cumulative : "3,639(100%)"
+        },
+        {
+          name: "智智校园",
+          newUsers:62,
+          activeUser:"2,292",
+          startCount:"19,899", 
+          firstStart:"00:00:22",
+          dayUse:"00:00:22",
+          date: "2016-05-02",
+          cumulative : "3,639(100%)"
         }
       ],
       channelArr: [
@@ -193,6 +240,37 @@ export default {
     }
   },
   methods: {
+    //把表格导出Excel文件
+    downloadTable(){
+       //console.log("导出",this.downloadLoading) //sertable
+        this.downloadLoading = true;
+       // 设置当前日期
+        let time = new Date();
+        let year = time.getFullYear();
+        let month = time.getMonth() + 1;
+        let day = time.getDate();
+        let name = year + "" + month + "" + day; 
+      //选中要导出的表格  
+        let wb = XLSX.utils.table_to_book(document.querySelector(".Usertable"));  
+      //获取二进制输出
+        let wbout = XLSX.write(wb,{
+          bookType: "xlsx",
+          bookSST: true,
+          type: "array"
+        });
+        try{  
+            //name(当前时间)+'.xlsx'表示导出的excel表格名字
+            FileSaver.saveAs(
+               new Blob([wbout], { type: "application/octet-stream" }),
+               name + ".xlsx",
+            );
+           
+        }catch (e) {
+          if (typeof console !== "undefined") console.log(e, wbout);
+        }
+       // return wbout;
+
+    },
     //今日，近七天，近30天的筛选
     LatestTimeDate(val) {
       console.log(val);
@@ -206,12 +284,20 @@ export default {
       this.charts = this.$echarts.init(document.getElementById(id));
       this.charts.setOption({
         title: {
-          text: "折线图堆叠"
+          text: "用户来源折线图统计"
         },
         tooltip: {
           trigger: "axis"
         },
         legend: {
+          bottom:0,
+          itemHeight:20,
+          padding: [
+              90,  // 上
+              0, // 右
+              0,  // 下
+              0, // 左
+          ],
           data: [
             "智小美",
             "智智小店",
@@ -224,7 +310,7 @@ export default {
         grid: {
           left: "3%",
           right: "4%",
-          bottom: "3%",
+          bottom: "5%",
           containLabel: true
         },
         toolbox: {
@@ -296,6 +382,7 @@ export default {
     this.$nextTick(function() {
       this.drawlineChart("chartdata");
     });
+    console.log( new Date().Format('yyyy-MM-dd HH:mm:ss') )
   }
 };
 </script>
@@ -339,6 +426,9 @@ export default {
 }
 .userSource-Box .table-contain{
   margin-top: 30px;
-
 }
+/* .Usertable .el-table th.is-sortable{ 
+  background-color: #f5f5f5;
+} */
+
 </style>
