@@ -14,9 +14,9 @@ npm run dev
 # 打包生产环境,目标目录dist
 npm run build
 
-# 分析打包详情
+# 分析打包详情 
 npm run build --report
-```
+
 ## 主要技术
  - vue:前端js框架
  - element-ui:跟vue搭配的前端ui框架

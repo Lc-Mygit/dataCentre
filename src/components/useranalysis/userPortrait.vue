@@ -143,7 +143,7 @@
                       </el-button-group>
                   </div>
                   <div class="right-icon">
-                       <p @click="userLickDetails">
+                       <p @click="genderDetail('用户喜好')">
                           <i style="font-size:30px;color:#1ac8bb" class="iconfont icongengduo"></i>
                       </p>
                   </div>
@@ -160,14 +160,26 @@
         </el-row>  
     </div>    
       <!--------对话框------->
-        <el-dialog title="收货地址" :visible.sync="dialogTableVisible">
-          <el-table :data="gridData">
-            <el-table-column property="date" label="日期" width="150"></el-table-column>
-            <el-table-column property="name" label="姓名" width="200"></el-table-column>
-            <el-table-column property="address" label="地址"></el-table-column>
-          </el-table>
+        <el-dialog :title="dialogTitle" :visible.sync="dialogTableVisible">
+          <div class="dialog-contain">  
+                <div class="line"></div>
+
+                <el-table :data="dialogData" border>
+                    <el-table-column property="date" sortable :label="dialogTitle" width="150"></el-table-column>
+                    <el-table-column property="name" sortable label="人数" width="200"></el-table-column>
+                    <el-table-column property="address" sortable label="百分比"></el-table-column>
+                  </el-table>
+                   
+                    <div class="pagination">
+                        <el-pagination
+                          background
+                          layout="prev, pager, next"
+                          :total="50">
+                        </el-pagination>
+                    </div>
+             </div>  
         </el-dialog>
-       <!-------对话框------->  
+       <!-------////对话框------->  
   </div>
 </template>    
 
@@ -176,8 +188,9 @@ export default {
   name: "userPortrait",
   data() {
     return {
+      dialogTitle:"",
       dialogTableVisible:false,
-        gridData: [ {
+        dialogData: [ {
             date: '2016-05-02',
             name: '王小虎',
             address: '上海市普陀区金沙江路 1518 弄'
@@ -281,17 +294,15 @@ export default {
                   ]
               })
     },
-    //用户喜好详情
-    userLickDetails(){
-        alert("用户喜好详情")
-    },
+ 
     //按钮的操作
     EvtuserSelect(val){
          alert(val);
     },
     //性别人物 男女的比例详情
-    genderDetail() {
-      alert("详情表格");
+    genderDetail(val) {
+        this.dialogTitle = val;
+        this.dialogTableVisible = true;
     },
     transition(val){
       if(val){
@@ -369,6 +380,12 @@ export default {
   height: 1px;
   background-color: #f5f5f5;
   margin: 25px 0 25px 0;
+}
+.dialog-contain .line{
+   width: 100%;
+    height: 2px;
+    background-color: #f5f5f5;
+    margin: 15px 0 15px 0;
 }
 
 .userpreferences-Box .buttongroup-box{
