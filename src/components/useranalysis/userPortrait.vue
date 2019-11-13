@@ -45,8 +45,9 @@
                   :header-cell-style="{background:'#f5f5f5',color:'#606266'}"
                  > 
                   <el-table-column
+                      width="120"
                       label="年龄"
-                      align='center'
+                      align='left'
                       >
                       <template slot-scope="scope">
                          
@@ -57,8 +58,8 @@
 
                     <el-table-column
                       label=""
-                      width="150"
-                      show-text="false"
+        
+                      align='left'
                      >
                       <template slot-scope="scope">
                           <el-progress type="line" :percentage="transition(scope.row.percent)"></el-progress>
@@ -68,6 +69,7 @@
                     <el-table-column
                       label="百分比"
                       align='center'
+                      width="80"
                       >
                       <template slot-scope="scope">
                          {{scope.row.percent}}
@@ -98,6 +100,7 @@
                   <el-table-column
                       label="城市等级"
                       align='center'
+                      width="120"
                       >
                       <template slot-scope="scope">
                         <span>{{scope.row.citylevel}}</span>
@@ -106,7 +109,7 @@
 
                     <el-table-column
                       label=""
-                      width="150"
+                      align='left'
                      >
                       <template slot-scope="scope">
                           <el-progress type="line" :percentage="scope.row.percent"></el-progress>
@@ -116,6 +119,7 @@
                     <el-table-column
                       label="百分比"
                       align='center'
+                      width="80"
                       >
                       <template slot-scope="scope">
                          {{scope.row.percent}}
@@ -147,8 +151,6 @@
                           <i style="font-size:30px;color:#1ac8bb" class="iconfont icongengduo"></i>
                       </p>
                   </div>
-
-
               </div>  
 
               <!--柱状图区域-->
@@ -164,7 +166,7 @@
           <div class="dialog-contain">  
                 <div class="line"></div>
 
-                <el-table :data="dialogData" border>
+                <el-table :data="dialogData" border  :header-cell-style="{background:'#f5f5f5',color:'#606266'}">
                     <el-table-column property="date" sortable :label="dialogTitle" width="150"></el-table-column>
                     <el-table-column property="name" sortable label="人数" width="200"></el-table-column>
                     <el-table-column property="address" sortable label="百分比"></el-table-column>
@@ -177,7 +179,7 @@
                           :total="50">
                         </el-pagination>
                     </div>
-             </div>  
+          </div>  
         </el-dialog>
        <!-------////对话框------->  
   </div>
@@ -270,7 +272,7 @@ export default {
                       bottom: '3%',
                       containLabel: true
                   },
-                  xAxis : [
+                  xAxis:[
                       {
                           type : 'category',
                           data : ['公务就餐', '充值缴费', '智智物业', '智智校园', '公务就餐', '公务就餐', '公务就餐'],
@@ -279,20 +281,22 @@ export default {
                           }
                       }
                   ],
-                  yAxis : [
+                  yAxis:[
                       {
                           type : 'value'
                       }
                   ],
-                  series : [
+                  series:[
                       {
                           name:'直接访问',
                           type:'bar',
                           barWidth:'20%',
                           data:[10, 52, 51, 64, 14, 56, 80]
                       }
-                  ]
-              })
+                  ],
+                  //x轴文字旋转
+                 
+              });
     },
  
     //按钮的操作

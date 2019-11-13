@@ -12,33 +12,31 @@
       <div class="channel-table">渠道列表</div>
     </el-row>
 
-    <el-row :gutter="20">
-      <el-col :span="6" :xs="14" :sm="10" :md="6" :lg="6">
-        <el-card shadow="hover">
-          <el-date-picker
-            style="width:100%"
-            v-model="dateRangeValue"
-            type="daterange"
-            range-separator="至"
-            start-placeholder="开始日期"
-            end-placeholder="结束日期"
-            value-format="yyyy-MM-dd"
-          ></el-date-picker>
-        </el-card>
-      </el-col>
-      <el-col :span="4" :xs="10" :sm="8" :md="4" :lg="4">
-        <el-card shadow="hover">
-          <el-select v-model="selectChannelVal" clearable placeholder="请选择" style="width:100%">
-            <el-option
-              v-for="item in channelArr"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
-            ></el-option>
+    <div class="row-gutter">  
+        <div> 
+            <el-date-picker
+              style="width:240px"
+              v-model="dateRangeValue"
+              type="daterange"
+              range-separator="至"
+              start-placeholder="开始日期"
+              end-placeholder="结束日期"
+              value-format="yyyy-MM-dd"
+            ></el-date-picker>
+      </div>
+    
+       <div> 
+          <el-select v-model="selectChannelVal" clearable placeholder="请选择" style="width:135px">
+              <el-option
+                v-for="item in channelArr"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"
+              ></el-option>
           </el-select>
-        </el-card>
-      </el-col>
-    </el-row>
+        </div>
+  
+    </div>
 
     <!-- 用户来源图表区域 -->
     <div class="userSourceChart-Box">
@@ -103,12 +101,17 @@
         <div class="table-contain">
           <el-row>
               <el-table 
+                class="Usertable"
                 :header-cell-style="{background:'#f5f5f5',color:'#606266'}"
                 :data="tableData"
                 style="width: 100%"
                 :default-sort="{prop:'cumulative', order: 'descending'}"
               >
-                <el-table-column prop="name" label="渠道名称" sortable width="180"  align='center'></el-table-column>
+                <el-table-column prop="name" label="渠道名称" sortable width="120"  align='left'>
+                    <template slot-scope="scope">
+                          <span style="color:#38ccbe">{{scope.row.name}}</span>
+                    </template>
+                </el-table-column>
                 <el-table-column prop="newUsers" label="新增用户" sortable width="180" align='center'></el-table-column>
                 <el-table-column prop="activeUser" label="活跃用户"  sortable align='center'></el-table-column>
 
@@ -224,8 +227,8 @@ export default {
           label: "智小充"
         },
         {
-          value: "智慧校园",
-          label: "智慧校园"
+          value: "智智校园",
+          label: "智智校园"
         }
       ],
       dateRangeValue: "", //日期范围的值
@@ -261,7 +264,7 @@ export default {
         try{  
             //name(当前时间)+'.xlsx'表示导出的excel表格名字
             FileSaver.saveAs(
-               new Blob([wbout], { type: "application/octet-stream" }),
+               new Blob([wbout], { type: "application/octet-stream"}),
                name + ".xlsx",
             );
            
@@ -338,43 +341,41 @@ export default {
           {
             name: "智小美",
             type: "line",
-            stack: "总量",
+            stack: "总量1",
             data: [1200, 2800, 3421, 3564, 3356, 2335, 4203]
           },
           {
             name: "智智小店",
             type: "line",
-            stack: "总量",
+            stack: "总量2",
             data: [2200, 3232, 4201, 3482, 3156, 3185, 4500]
           },
           {
             name: "智智物业",
             type: "line",
-            stack: "总量",
+            stack: "总量3",
             data: [2150, 3232, 4201, 3154, 3190, 2330, 3410]
           },
           {
             name: "智小充",
             type: "line",
-            stack: "总量",
+            stack: "总量4",
             data: [2356, 3332, 4301, 3334, 4390, 5330, 3320]
           },
           {
             name: "智智校园",
             type: "line",
-            stack: "总量",
+            stack: "总量5",
             data: [3820, 2932, 4901, 3934, 2290, 3330, 4320]
           },
           {
             name: "单位职工",
             type: "line",
-            stack: "总量",
+            stack: "总量6",
             data: [3820, 4932, 3901, 3934, 4290, 3330, 3900]
           }
         ]
       });
-
-      //drawlineChart
     }
   },
   mounted() {
@@ -430,5 +431,13 @@ export default {
 /* .Usertable .el-table th.is-sortable{ 
   background-color: #f5f5f5;
 } */
+
+.row-gutter{
+  width: 400px;
+  height:40px;
+  display: flex;
+  flex-direction:row;
+  justify-content: space-between;
+}
 
 </style>
