@@ -301,9 +301,20 @@
 
                 <!-- 实时统计 折线图表区域 -->
                 <div class="measuredChart-chart">
-                     <div id="measuredChart" style="witch:1200px;height:500px"></div>   
+                     <div id="measuredChart" style="witch:1200px;height:500px"></div> 
+                     <!-- 表格详情  展开数据明细 -->
+                     <div class="measuredChart-table">
+                          <el-collapse accordion>
+                                <el-collapse-item>
+                                    <template slot="title">
+                                    展开数据明细<i class="header-icon el-icon-info"></i>
+                                    </template>
+                                     <div>嘿嘿，我是明细的数据</div>   
+                                </el-collapse-item>   
+                          </el-collapse> 
+                     </div>
                 </div>
-
+                
 
 
 
@@ -534,6 +545,7 @@
         margin: 20px 0 20px 0;
         display: flex;
         flex-direction: row;
+        overflow: hidden;
     }
     .basictarget-active-Box .item{
         width: 210px;

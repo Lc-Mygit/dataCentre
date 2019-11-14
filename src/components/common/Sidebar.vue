@@ -1,10 +1,10 @@
 <template>
     <div class="sidebar">
         <el-menu class="sidebar-el-menu" @open="unfoldNav" :default-active="onRoutes" :collapse="collapse" background-color="#ffffff"
-            text-color="#b1b1b1" active-text-color="#8cdfd8" unique-opened router>
+            text-color="#b1b1b1" active-text-color="#8cdfd8" router>
            <template v-for="(item,i) in menuArr">
                 <template v-if="item.subs&&item.subs.length">
-                    <el-submenu :index="item.index" :key="i">
+                    <el-submenu :index="item.index" :key="i"> 
                         <template slot="title">
                                <i style="color:#666;font-size:22px" :class="item.icon"></i> <span slot="title" style="font-size:18px">{{ item.title }}</span>
                         </template>
