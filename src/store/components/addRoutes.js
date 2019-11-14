@@ -25,10 +25,10 @@ const addRoutes = {
       });
 
       //写入开发模式下静态路由
-      if(routeDev.ROUTE_DEV==true){
+      if(routeDev.ROUTE_DEV==true){ 
         routeList.push(...routeDev.routeDevList);//...是es6中的 ‘点语法’ 扩展运算符
       }
-
+                          
       let routeHideList=[];
       ConvertRoutes(routeList, routeHideList,routeParam); // 将后台的路由数据components转化成组件
       var rootRoute= [{
@@ -47,7 +47,7 @@ const addRoutes = {
       state.rootRoute=rootRoute;
       //动态添加路由
       router.addRoutes(rootRoute)
-      console.log('输出路由:',JSON.stringify(rootRoute));
+      // console.log('输出路由:',JSON.stringify(rootRoute));
     },
     add_Routes_Fresh(state){
        //if(state.routeParam&&state.routeParam.length>0){

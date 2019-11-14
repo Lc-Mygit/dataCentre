@@ -40,6 +40,21 @@ var routeDevList = [
             title: '设备终端'
         }
     },
+    {
+        path:'/userAnalysisIndex',
+        component: resolve => require(['../components/useranalysis/userAnalysisIndex'], resolve),
+        meta: {
+            title: '用户分析'
+        }
+    },
+    /*数据统计表*/
+    {
+        path:'/statisticalTable',
+        component: resolve => require(['../components/statisticalTable/statisticalTable.vue'], resolve),
+        meta: {
+            title:'数据统计表'
+        }
+    },
 ];
 //=========静态菜单======== 可写死菜单  
 var menuDevList = [
@@ -67,6 +82,7 @@ var menuDevList = [
         ]
     }
 ]
+
 
 
 var routeDev = {
