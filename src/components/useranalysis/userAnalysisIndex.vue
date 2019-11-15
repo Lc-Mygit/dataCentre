@@ -481,19 +481,61 @@
                                         </el-button-group>
                                     </div>
                                     <div id="userSourcechart" style="width:100%;height:400px;"></div>
-                                   
                             </div>
                         </el-card>   
                     </el-col>
                 </div>
             </el-row>   
-             
         </div>
+
+        <!-- 用户画像区域 -->
+        <div class="Userportrait-Box">
+            <el-card shadow="hover">
+                 <div class="head-contain">
+                        <div class="title">用户画像</div> 
+                        <div class="select"><el-link type="primary">详情</el-link></div>
+                 </div>
+                  <!-- 分割线 -->
+                  <div class="line"></div>
+                   <el-row :gutter="12">
+                             <!-- 左侧地图 图表部分 -->
+                            <el-col :span="12">  
+                            <div class="map-content">
+                                <div id="map-city" style="width:100%;height:700px;background-color: #f7f7f7;"></div>
+                            </div>
+                            </el-col>   
+                            <!-- 右侧男女 图表部分 -->
+                            <el-col :span="12">
+                            <div class="gender-content">
+                                    <div id="gender-histogram" style="width:100%;height:700px;"></div>
+                            </div>
+                           </el-col>   
+                    </el-row>           
+    
+
+                  
+                    <el-row :gutter="12">
+                        <!-- 年龄分布 -->
+                        <el-col :span="12">
+                            <div class="age-structure map-content">
+                                     <div id="age-structure" style="width:100%;height:700px;background-color: #f7f7f7;"></div>
+                            </div>
+                        </el-col>
+                        <!-- 用户喜好 -->
+                        <el-col :span="12">
+                            <div class="user-preferences map-content"></div>
+                        </el-col>          
+                    </el-row>     
+
+            </el-card>
+        </div>
+
 
     </div>
 </template>
 
 <script>
+import JSON from './../../assets/province/guangxi.json';  //guangxi.json
     export default{
         name: "userAnalysisIndex",
            data() {
@@ -784,6 +826,292 @@
                         window.onresize = function () {
                             this.Sourcecharts.resize();
                         }
+               },
+               //渲染城市地图图表
+               deawCitymap(id){
+                   
+                  let echarts = this.$echarts.init(document.getElementById(id));
+                  this.$echarts.registerMap('广西', JSON);
+                        echarts.setOption({
+                         title:{
+                            show:true,
+                            text:'地域分布',
+                            x:'center',//水平安放位置，默认为'left'，可选为：'center' | 'left' | 'right' | {number}（x坐标，单位px）
+                            y: 'top',
+                         },
+                         tooltip: {
+                            show: true,
+                            formatter: function(params) {
+                                if (params.data){
+                                    return  "城市："+params.name + '</br>用户数：' + params.data['value']
+                                } 
+                            },
+                        },    
+                        visualMap:{
+                                min: 373,
+                                max: 7500,
+                                text:['高','低'],
+                                realtime: false,
+                                calculable: true,
+                                inRange: {
+                                    color: ['lightskyblue','yellow', 'orangered']
+                                }
+                            },
+                        legend: {
+                                orient: 'vertical',
+                                left: 'left',
+                                data: ['总数']
+                        },    
+                        series: [{
+                            type: 'map',
+                            map: '广西',
+                            selectedMode:'single',
+                            itemStyle:{
+                                normal:{
+                                    label:{
+                                        show:true
+                                    }
+                                },
+                                emphasis:{
+                                    label:{
+                                        show:true
+                                    }
+                                }
+                            },
+                            data:[
+                                {name: '南宁市', value: 789},
+                                {name: '柳州市', value: 500},
+                                {name: '桂林市', value: 615},
+                                {name: '梧州市', value: 4822},
+                                {name: '北海市', value: 786},
+                                {name: '防城港市', value: 3256},
+                                {name: '钦州市', value: 2353},
+                                {name: '贵港市', value: 568},
+                                {name: '玉林市', value: 641},
+                                {name: '百色市', value: 7000},
+                                {name: '贺州市', value: 1542},
+                                {name: '河池市', value: 6826},
+                                {name: '来宾市', value: 5424},
+                                {name: '崇左市', value: 1456},
+                            ]
+                        }]
+                    });
+
+                    window.onresize = function(){
+                            echarts.resize();
+                    }
+                  
+               },
+               deawGender(id){
+                    let echarts = this.$echarts.init(document.getElementById(id));
+                    echarts.setOption( {
+                           title:{
+                                show:true,
+                                text:'性别分布',
+                                x:'center',//水平安放位置，默认为'left'，可选为：'center' | 'left' | 'right' | {number}（x坐标，单位px）
+                                y: 'top',
+                            },
+                                tooltip: {
+                                    trigger: 'axis',
+                                    formatter:'{a}:{c}',
+                                    axisPointer: {
+                                        type: 'cross',
+                                        crossStyle: {
+                                            color: '#999'
+                                        }
+                                    }
+                                },
+                                grid: {
+                                show:false,
+                                top:'30',
+                                bottom:'60',
+                                right:'60',
+                                left:'60'
+                                },
+                                legend: {
+                                show:true,
+                                selectedMode:'single',    //设置显示单一图例的图形，点击可切换
+                                bottom:10,
+                                left:50,
+                                textStyle:{
+                                color:'#666',
+                                fontSize:12
+                                },
+                                itemGap:20,
+                                    data:['男','女','未知'],
+                                     inactiveColor:'#ccc'
+                                },
+                                xAxis: [
+                                    {
+                                        type: 'category',
+                                        data: ['男', '女', '未知'],
+                                  
+                                        axisPointer: {
+                                            type: 'shadow'
+
+                                        },
+                                 
+                                          axisTick: {
+                                            show:false,
+                                            interval: 0
+                               },
+
+                                    }
+                                ],
+
+                            //设置两个y轴，左边显示数量，右边显示概率
+
+                                yAxis: [
+                                    {
+                                        type: 'value',
+                            //             name: '数量',
+                                        show:true,
+                                       interval: 2000,
+                                    },
+                                    {
+                                        type: 'value',
+                            //             name: '概率',
+                                        min: 0,
+                                        max: 100,
+                                        interval: 5,
+                                        axisLabel: {
+                                            formatter: '{value} %'
+                                        }
+                                    }
+                                ],
+
+                            //每个设备分数量、概率2个指标，只要让他们的name一致，即可通过，legeng进行统一的切换
+
+                                series: [
+                                    {
+                                        name:'男',
+                                        type:'bar',
+                                        data:[6455,5800,7700],
+                                        barWidth : '50%',
+                                        
+                                    },
+                                     {
+                                        name:'男',
+                                        type:'line',
+                                        yAxisIndex: 1,    //这里要设置哪个y轴，默认是最左边的是0，然后1，2顺序来。
+                                        data:[75,65,85],
+                                        symbolSize:10,
+                                        itemStyle:{
+                                        normal:{
+                                        color:"#DDA0DD"
+                                        }
+                                       
+                                        }
+                                    },
+                                    {
+                                        name:'女',
+                                        type:'bar',
+                                        data:[5456,2564,6563],
+                                        barWidth : '50%',
+                                    },
+                                    {
+                                        name:'女',
+                                        type:'line',
+                                        yAxisIndex: 1,
+                                        data:[20,56,58],
+                                        symbolSize:10,
+                                        itemStyle:{
+                                        normal:{
+                                        color:"#87CEFA"
+                                        }
+                                       
+                                        }
+                                    },
+                                    {
+                                        name:'未知',
+                                        type:'bar',
+                                        data:[600,570,680,650,640,600,570,
+                                        450,400,380,300,900,800,700,680,650,640,],
+
+                                        barWidth : '50%',
+                                    },
+                                    {
+                                        name:'未知',
+                                        type:'line',
+                                        yAxisIndex: 1,
+                                        data:[75,65,85,66,45,55,56,42,78,69,70,36,42,50,65,75,80],
+                                        symbolSize:10,
+                                        itemStyle:{
+                                        normal:{
+                                        color:"#CD5C5C"
+                                        }
+                                       
+                                        }
+                                    }
+                                ]
+                        });
+                    window.onresize = function(){
+                            echarts.resize();
+                    }
+               },
+               //年龄分布
+               deawAgeStructure(id){
+                    let echarts = this.$echarts.init(document.getElementById(id));
+                    echarts.setOption({
+                            color: ['#3398DB'],
+                            tooltip : {
+                                trigger: 'axis',
+                                axisPointer : {            // 坐标轴指示器，坐标轴触发有效
+                                    type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+                                }
+                            },
+                            grid: {
+                                left: '3%',
+                                right: '4%',
+                                bottom: '3%',
+                                containLabel: true
+                            },
+                            xAxis : [
+                                {
+                                    type : 'category',
+                                    data : ['10-19岁', '20-29岁', '30-39岁', '40-49岁', '50-59岁', '60岁以上'],
+                                    axisTick: {
+                                        alignWithLabel: true
+                                    }
+                                }
+                            ],
+                            yAxis : [
+                                {
+                                    type : 'value'
+                                }
+                            ],
+                            series : [
+                                
+                                {
+                                    name:'本站',
+                                    type:'bar',
+                                    barWidth: '20%',
+                                    data:[18, 65, 56, 45, 51,25, 33],
+                                    itemStyle:{
+                                        //通常情况下：
+                                        normal:{  
+                                            //每个柱子的颜色即为colorList数组里的每一项，如果柱子数目多于colorList的长度，则柱子颜色循环使用该数组中的颜色
+                                            color: function (params){
+                                                var colorList = [
+                                                    '#ff7f50'
+                                                    ];
+                                                return colorList[params.dataIndex];
+                                            },
+                                            // color: '#a453f7',  //设置所有柱状图颜色
+                                        }
+                                    }    
+                                },
+                                {
+                                    name:'互联网',
+                                    type:'bar',
+                                    barWidth: '20%',
+                                    data:[56, 22, 23, 34, 54, 47, 45]
+                                }
+                            ]
+                        }); 
+                        window.onresize = function(){
+                            echarts.resize();
+                        }  
                }
            },
            mounted(){
@@ -793,9 +1121,16 @@
                     this.deawAddUser("adduserChart");
                     this.deawDownload("deawDownloadChart");
                     this.deawUserSource("userSourcechart");  
+                    this.deawCitymap("map-city");
+                    this.deawGender("gender-histogram");
+                    this.deawAgeStructure("age-structure");
+                   
                 }); 
+
+              
            }    
     }   
+    // https://gallery.echartsjs.com/editor.html?c=xY9RUiDDNe
 </script>
 
 
@@ -946,7 +1281,7 @@
         justify-content: space-between;
         flex-flow: nowrap;
     }
-    .edit-indicators-contain .line,.download-usersource-Box .line{
+    .edit-indicators-contain .line,.download-usersource-Box .line,.Userportrait-Box .line{
         width: 100%;
         height: 1px;
         background-color: #f5f5f5;
@@ -979,7 +1314,7 @@
     .download-usersource-Box{
         margin: 20px 0 20px 0;
     }
-    .download-usersource-Box .head-contain{
+    .download-usersource-Box .head-contain,.Userportrait-Box .head-contain{
             display: -webkit-box;
             display: -ms-flexbox;
             display: flex;
@@ -992,11 +1327,11 @@
             justify-content: space-between;
             flex-flow: nowrap;
     }
-    .download-usersource-Box .head-contain .title{
+    .download-usersource-Box .head-contain .title,.Userportrait-Box .head-contain .title{
            font-size: 22px;
            font-weight: bold;
      }
-    .download-usersource-Box .head-contain .select{
+    .download-usersource-Box .head-contain .select,.Userportrait-Box .head-contain .select{
           color:#369bf3;
           cursor: pointer;
     }   
@@ -1006,4 +1341,12 @@
     .download-usersource-Box .buttongroup-box{
         margin: 20px 0 20px 0;
     }
+
+    /*.......用户画像区域....*/ 
+    .Userportrait-Box .map-content,.Userportrait-Box .gender-content{
+        width: 100%;
+        height: 740px;
+        border: 1px dashed #369bf3;
+    }
+    
 </style>

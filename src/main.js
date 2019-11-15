@@ -10,7 +10,7 @@ require("./../static/js/Timeformat");
 //引用阿里巴巴矢量图库
 import '@/assets/icons/iconfont.css';
 // 引入echarts图表 
-import echarts from 'echarts'
+import echarts from 'echarts';
 
 import App from './App'
 import router from './router'
