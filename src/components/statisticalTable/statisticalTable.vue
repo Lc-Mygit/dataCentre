@@ -94,6 +94,7 @@
                         style="width: 100%"
                         border
                       >
+    
                         <el-table-column prop="key1" label="新增用户"   align='left'></el-table-column>
                         <el-table-column prop="key2" label="累计用户数"   align='center'></el-table-column>
                         <el-table-column prop="key3" label="活跃用户"   align='center'></el-table-column>

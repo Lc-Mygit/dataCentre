@@ -33,7 +33,7 @@ var mockObj={
                 },
                 "sysRoleVoList":[
                     {
-                        "roleName":"黄金岗"
+                        "roleName":"wander"
                     }
                 ],
                 "rolePermissionVoList":[

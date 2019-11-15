@@ -301,25 +301,195 @@
 
                 <!-- 实时统计 折线图表区域 -->
                 <div class="measuredChart-chart">
-                     <div id="measuredChart" style="witch:1200px;height:500px"></div> 
+                     <div id="measuredChart" style="witch:100%;height:500px"></div> 
                      <!-- 表格详情  展开数据明细 -->
                      <div class="measuredChart-table">
                           <el-collapse accordion>
                                 <el-collapse-item>
                                     <template slot="title">
-                                    展开数据明细<i class="header-icon el-icon-info"></i>
+                                        <span style="color: rgb(33, 150, 243);font-size: 17px;">展开数据明细</span>  
                                     </template>
-                                     <div>嘿嘿，我是明细的数据</div>   
+                                     <div class="inner-table-box">
+                                        <el-table  
+                                            class="detail-table"
+                                            :header-cell-style="{background:'#f5f5f5',color:'#606266'}"
+                                            :data="detailTableArr"
+                                            style="width: 100%"
+                                           
+                                            border
+                                        >
+                                         <!-- v-loading="true" -->
+                                            <el-table-column prop="key1" label="日期"   align='left'></el-table-column>
+                                            <el-table-column prop="key2" label="新增用户"   align='center'></el-table-column>
+                                            <el-table-column prop="key3" label="启动次数"   align='center'></el-table-column>
+                                            <el-table-column prop="key4" label="累计日活"   align='center'></el-table-column>
+                                            <el-table-column prop="key5" label="活跃用户"  align='center'></el-table-column>
+                                            <!-- <el-table-column prop="key6" label="新增销售额（元）"   align='center'></el-table-column>
+                                            <el-table-column prop="key7" label="销售总额（元）"    align='center'></el-table-column>
+                                            <el-table-column prop="key8" label="增长率（销售额）"    align='center'></el-table-column>
+                                            <el-table-column prop="key9" label="新增提现（元）"    align='center'></el-table-column>
+                                            <el-table-column prop="key10" label="提现总额（元）"    align='center'></el-table-column> -->
+                                        </el-table>   
+                                            <!-- 分页控件 -->
+                                        <div class="pagination-box"> 
+                                                <el-pagination
+                                                    background
+                                                    :page-sizes="[10, 20, 30, 40]"
+                                                    layout="total, prev, pager, next"
+                                                    :total="1000">
+                                                </el-pagination> 
+                                        </div> 
+                                    </div>   
                                 </el-collapse-item>   
-                          </el-collapse> 
+                          </el-collapse>           
+                         <!-- 日期选择范围 控件 -->
+                         <div class="datepicker-right"> 
+                            <el-date-picker
+                                    style="width:230px"
+                                    v-model="dateRangeValue"
+                                    type="daterange"
+                                    range-separator="至"
+                                    start-placeholder="开始日期"
+                                    end-placeholder="结束日期"
+                                    value-format="yyyy-MM-dd"
+                                ></el-date-picker>  
+                         </div> 
+
+
                      </div>
                 </div>
-                
-
-
-
-            </el-card>  
+            </el-card>
         </div>
+        <!-- 编辑指标 表区域 -->
+        <div class="edit-indicators-contain">
+            <el-card shadow="hover">
+                <div class="head-indicators">
+                      <div style="margin-left:20px">
+                           <el-date-picker
+                                    style="width:230px"
+                                    v-model="dateRangeValue"
+                                    type="daterange"
+                                    range-separator="至"
+                                    start-placeholder="开始日期"
+                                    end-placeholder="结束日期"
+                                    value-format="yyyy-MM-dd"
+                            ></el-date-picker>  
+                      </div>
+                      <div>
+                          <span style="color:#3799f4;font-size:17px;cursor:pointer;">编辑指标</span>  
+                      </div>
+                </div>
+    
+                <!-- 分割线 -->
+                <div class="line"></div>
+                
+                <!-- 按钮组区域 -->
+                <div class="button-group">
+                        <div class="button-item button-active">新增用户</div> 
+                        <div class="button-item">活跃用户</div>  
+                        <div class="button-item">累计用户</div>
+                        <div class="button-item">用户留存率</div>
+                        <div class="button-item">启动次数</div>
+                        <div class="button-item">崩溃数</div>
+                        <div class="button-item">崩溃率</div>
+                        <div class="button-item">沉默用户</div>
+                </div>
+                <!-- 新增用户 图表区域 -->
+                <div class="Add-userChart">
+                    <div id="adduserChart" style="100%;height:500px"></div>
+                    <!--表格详情  展开数据明细 -->
+                    <el-collapse accordion>
+                                <el-collapse-item>
+                                    <template slot="title">
+                                        <span style="color: rgb(33, 150, 243);font-size: 17px;">展开数据明细</span>  
+                                    </template>
+                                     <div class="inner-table-box">
+                                        <el-table  
+                                            class="detail-table"
+                                            :header-cell-style="{background:'#f5f5f5',color:'#606266'}"
+                                            :data="detailTableArr"
+                                            style="width: 100%"
+                                           
+                                            border
+                                        >
+                                         <!-- v-loading="true" -->
+                                            <el-table-column prop="key1" label="日期"   align='center'></el-table-column>
+                                            <el-table-column prop="key2" label="新增用户"   align='center'></el-table-column>
+                                            <el-table-column prop="key3" label="活跃用户"   align='center'></el-table-column>
+                                            <el-table-column prop="key4" label="累计用户"   align='center'></el-table-column>
+                                            <el-table-column prop="key5" label="用户留存率"  align='center'></el-table-column>
+                                            <el-table-column prop="key2" label="启动次数"   align='center'></el-table-column>
+                                            <el-table-column prop="key4" label="崩溃数"    align='center'></el-table-column>
+
+                                            <!-- <el-table-column prop="key8" label="增长率（销售额）"    align='center'></el-table-column>
+                                            <el-table-column prop="key9" label="新增提现（元）"    align='center'></el-table-column>
+                                            <el-table-column prop="key10" label="提现总额（元）"    align='center'></el-table-column>  -->
+                                        </el-table>   
+                                            <!-- 分页控件 -->
+                                        <div class="pagination-box"> 
+                                                <el-pagination
+                                                    background
+                                                    :page-sizes="[10, 20, 30, 40]"
+                                                    layout="total, prev, pager, next"
+                                                    :total="1000">
+                                                </el-pagination> 
+                                        </div> 
+                                    </div>   
+                                </el-collapse-item>   
+                        </el-collapse>              
+                </div>
+            </el-card>  
+        </div>   
+
+        <!-- 下载渠道和用户来源的--区域 -->
+        <div class="download-usersource-Box">
+            <el-row :gutter="12">
+                <!--下载渠道图表-->
+                <div class="download-content">
+                    <el-col :span="12">
+                        <el-card shadow="hover">
+                            <div class="head-contain">
+                                <div class="title">下载渠道</div> 
+                                <div class="select"><el-link type="primary">详情</el-link></div>
+                            </div>
+                            <!-- 分割线 -->
+                            <div class="line"></div>
+                            <div class="Echart-contain">
+                                 <!-- 下载渠道图表 Echart -->
+                                 <div id="deawDownloadChart" style="width:100%;height:400px"></div>
+
+                            </div>
+                        </el-card>   
+                    </el-col>
+                </div>
+                <!--用户来源-->
+                <div class="userSource-content">
+                    <el-col :span="12">
+                        <el-card shadow="hover">   
+                             <div class="head-contain">
+                                <div class="title">用户来源</div>
+                                <div class="select"> 详情 </div>
+                             </div>
+                            <!-- 分割线 -->
+                            <div class="line"></div>
+                            <div class="Echart-contain">
+                                    <div class="buttongroup-box">
+                                         <el-button-group>
+                                            <el-button plain>新增用户</el-button>
+                                            <el-button plain>活跃用户</el-button>
+                                            <el-button plain>累计用户</el-button>
+                                        </el-button-group>
+                                    </div>
+                                    <div id="userSourcechart" style="width:100%;height:400px;"></div>
+                                   
+                            </div>
+                        </el-card>   
+                    </el-col>
+                </div>
+            </el-row>   
+             
+        </div>
+
     </div>
 </template>
 
@@ -328,6 +498,16 @@
         name: "userAnalysisIndex",
            data() {
              return {
+                 Sourcecharts:"",
+                detailTableArr:[
+                    {key1:"2019-11-11",key2:256,key3:5423,key4:6203,key5:8956},
+                    {key1:"2019-11-12",key2:256,key3:5423,key4:6203,key5:8956},
+                    {key1:"2019-11-13",key2:256,key3:5423,key4:6203,key5:8956},
+                    {key1:"2019-11-14",key2:256,key3:5423,key4:6203,key5:8956},
+                    {key1:"2019-11-15",key2:256,key3:5423,key4:6203,key5:8956},    
+                    {key1:"2019-11-16",key2:256,key3:5423,key4:6203,key5:8956},      
+                    {key1:"2019-11-17",key2:256,key3:5423,key4:6203,key5:8956},        
+                ],
                 dateRangeValue:null,
                 charts:"",
              }
@@ -337,32 +517,33 @@
                Evtactive(val){
                    alert(val)
                },
+               //图表
                drawlineChart(id){
                     this.charts = this.$echarts.init(document.getElementById(id));
                     this.charts.setOption({
                         title: {
-                        text: ""
+                            text: ""
                         },
                         tooltip: {
-                        trigger: "axis"
+                            trigger: "axis"
                         },
                         legend: {
-                        bottom:0,
-                        itemHeight:20,
-                        padding: [
-                            90,  // 上
-                            0, // 右
-                            0,  // 下
-                            0, // 左
-                        ],
-                        data: [
-                            "智小美",
-                            "智智小店",
-                            "智智物业",
-                            "智小充",
-                            "智智校园",
-                            "单位职工"
-                        ]
+                            bottom:0,
+                            itemHeight:20,
+                            padding: [
+                                90,  // 上
+                                0, // 右
+                                0,  // 下
+                                0, // 左
+                            ],
+                            data: [
+                                "智小美",
+                                "智智小店",
+                                "智智物业",
+                                "智小充",
+                                "智智校园",
+                                "单位职工"
+                            ]
                         },
                         grid: {
                         left: "3%",
@@ -430,13 +611,189 @@
                         }
                         ]
                     });
+                     //自适应
+                    window.onresize = function () {
+                        charts.resize();
+                    }
+               },
+               //新增用户图表
+               deawAddUser(id){
+                     let charts = this.$echarts.init(document.getElementById(id));
+                     charts.setOption(  
+                        {
+                        tooltip: {
+                            trigger: "axis"
+                        },
+                        legend: {
+                            bottom:0,
+                            itemHeight:20,
+                            padding: [
+                                90,  // 上
+                                0, // 右
+                                0,  // 下
+                                0, // 左
+                            ],
+                            data: [
+                                "新增用户"
+                            ]
+                        },
+                        grid: {
+                        left: "3%",
+                        right: "4%",
+                        bottom: "5%",
+                        containLabel: true
+                        },
+                        toolbox: {
+                        feature: {
+                            saveAsImage: {}
+                        }
+                        },
+                        xAxis: {
+                        type: "category",
+                        boundaryGap: false,
+                        data: [
+                            "2019-11-01",
+                            "2019-11-02",
+                            "2019-11-03",
+                            "2019-11-04",
+                            "2019-11-05",
+                            "2019-11-06",
+                            "2019-11-11"
+                        ]
+                        },
+                        yAxis: {
+                        type: "value"
+                        },
+                        series: [
+                            {
+                                name: "新增用户",
+                                type: "line",
+                                stack: "总量1",
+                                data: [45, 65, 85, 68, 26, 31, 57],
+                                symbolSize: 20,   //设定实心点的大小
+                                itemStyle : {  
+                                    normal : {  
+                                        color:'#19c9be',  
+                                        lineStyle:{  
+                                            color:'#19c9be'  
+                                        }  
+                                    }  
+                               },  
+                            },
+                        ]
+    
+                    });
+                    //自适应
+                    window.onresize = function(){
+                        charts.resize();
+                    }
+               },
+               //下载渠道的图表
+               deawDownload(id){
+                   let charts = this.$echarts.init(document.getElementById(id));
+                   charts.setOption( {
+                            tooltip: {
+                                trigger: 'item',
+                                formatter: "{a} <br/>{b}: {c} ({d}%)"
+                            },
+                            legend: {
+                                orient: 'vertical',
+                                x: 'left',
+                                data:['官网下载','华为Store','扫码下载','用户分享','ios Store']
+                            },
+                            series: [
+                                {
+                                    name:'访问来源',
+                                    type:'pie',
+                                    radius: ['50%', '70%'],
+                                    avoidLabelOverlap: false,
+                                    label: {
+                                        normal: {  
+                      
+                                            show: true,
+                                            position: 'outside'
+                                        },
+                                        emphasis: {
+                                            show: true,
+                                            textStyle: {
+                                                fontSize: '30',
+                                                fontWeight: 'bold'
+                                            }
+                                        }
+                                    },
+                                    labelLine: {
+                                        normal: {
+                                            show: true
+                                        }
+                                    },
+                                    data:[
+                                        {value:335, name:'官网下载'},
+                                        {value:310, name:'华为Store'},
+                                        {value:234, name:'扫码下载'},
+                                        {value:135, name:'用户分享'},
+                                        {value:1548, name:'ios Store'}
+                                    ]
+                                }
+                            ]
+                        });
+                        window.onresize = function () {
+                            charts.resize();
+                        }
+               },
+               //用户来源
+               deawUserSource(id){
+                     this.Sourcecharts = this.$echarts.init(document.getElementById(id));
+                     this.Sourcecharts.setOption( {
+                            title : {
+                                text: '',
+                                subtext: '',
+                                x:'center'
+                            },
+                            tooltip : {
+                                trigger: 'item',
+                                formatter: "{a} <br/>{b} : {c} ({d}%)"
+                            },
+                            legend: {
+                                orient: 'vertical',
+                                left: 'left',
+                                data: ['智智小店','智小美','单位端','智小充','智智物业']
+                            },
+                            series : [
+                                {
+                                    name: '访问来源',
+                                    type: 'pie',
+                                    radius : '55%',
+                                    center: ['50%', '60%'],
+                                    data:[
+                                        {value:335, name:'智智小店'},
+                                        {value:310, name:'智小美'},
+                                        {value:234, name:'单位端'},
+                                        {value:135, name:'智小充'},
+                                        {value:1548, name:'智智物业'}
+                                    ],
+                                    itemStyle: {
+                                        emphasis: {
+                                            shadowBlur: 10,
+                                            shadowOffsetX: 0,
+                                            shadowColor: 'rgba(0, 0, 0, 0.5)'
+                                        }
+                                    }
+                                }
+                            ]
+                        });
+                        window.onresize = function () {
+                            this.Sourcecharts.resize();
+                        }
                }
            },
            mounted(){
                //图表的初始化
-                this.$nextTick(function() {
+                this.$nextTick(function(){
                     this.drawlineChart("measuredChart");
-                });
+                    this.deawAddUser("adduserChart");
+                    this.deawDownload("deawDownloadChart");
+                    this.deawUserSource("userSourcechart");  
+                }); 
            }    
     }   
 </script>
@@ -553,11 +910,100 @@
         display: flex;
         justify-content: center;
         align-items: center;
-      
     }
     .basictarget-active-Box .item:hover{
         cursor:pointer;
         border:0.5px solid  #1ac9bc;
         
+    }
+    .measuredChart-table{
+        margin: 50px 0 30px 0;
+        position: relative;
+    }
+
+    .measuredChart-table .datepicker-right{
+        position: absolute;
+        right: 0;
+        /* transform: translateY(-50%); */
+        top: 5px;
+    }
+    
+    .measuredChart-table .inner-table-box,.edit-indicators-contain .inner-table-box{
+        position: relative;
+        padding-bottom: 60px
+    }
+    .measuredChart-table .pagination-box,.edit-indicators-contain .pagination-box{
+        position: absolute;
+        right: 0;
+        bottom: 0;
+    }
+
+    /*编辑指标区域  .edit-indicators-contain{  }*/     
+   
+    .edit-indicators-contain .head-indicators{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        flex-flow: nowrap;
+    }
+    .edit-indicators-contain .line,.download-usersource-Box .line{
+        width: 100%;
+        height: 1px;
+        background-color: #f5f5f5;
+        margin: 25px 0 25px 0;
+    } 
+    .edit-indicators-contain .button-group{
+        width: 1248px;
+        height: 48px;
+        display: flex;
+        flex-direction: row;
+        flex-flow: nowrap;
+    }
+    .edit-indicators-contain .button-group .button-item{
+        width: 157px;
+        height: 100%;
+        line-height: 48px;
+        text-align: center;
+        border: 1px solid #c5c5c5;
+        cursor: pointer;
+        color: #333333;
+    }
+    .button-active{
+        border: 1px solid #4ccec4 !important;
+        color: #4ccec4 !important;
+    }
+    .edit-indicators-contain .Add-userChart{
+        margin: 30px 0 30px 0;
+    }
+/* <!-- 下载渠道和用户来源的--区域 --> */
+    .download-usersource-Box{
+        margin: 20px 0 20px 0;
+    }
+    .download-usersource-Box .head-contain{
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: flex;
+            -webkit-box-orient: horizontal;
+            -webkit-box-direction: normal;
+            -ms-flex-direction: row;
+            flex-direction: row;
+            -webkit-box-pack: justify;
+            -ms-flex-pack: justify;
+            justify-content: space-between;
+            flex-flow: nowrap;
+    }
+    .download-usersource-Box .head-contain .title{
+           font-size: 22px;
+           font-weight: bold;
+     }
+    .download-usersource-Box .head-contain .select{
+          color:#369bf3;
+          cursor: pointer;
+    }   
+    .download-usersource-Box .Echart-contain{
+        height: 440px;
+    }
+    .download-usersource-Box .buttongroup-box{
+        margin: 20px 0 20px 0;
     }
 </style>
