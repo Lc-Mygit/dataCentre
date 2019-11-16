@@ -523,10 +523,24 @@
                         </el-col>
                         <!-- 用户喜好 -->
                         <el-col :span="12">
-                            <div class="user-preferences map-content"></div>
+                            <div class="user-preferences map-content">
+                                <div style="text-align:center;font-size:18px;font-weight: bold;">用户喜好</div>
+                                <!-- 按钮组 -->
+                                <div style="margin:20px 0 20px 20px">
+                                    <el-button-group>
+                                        <el-button plain >新增用户</el-button>
+                                        <el-button plain >活跃用户</el-button>
+                                        <el-button plain >累积用户</el-button>
+                                    </el-button-group>
+                                </div>
+                                <!--玫瑰图 用户喜好图表-->
+                                <div id="user-preferences" style="width:100%;height:700px">
+                                    
+                                </div>
+
+                            </div>
                         </el-col>          
                     </el-row>     
-
             </el-card>
         </div>
 
@@ -858,8 +872,8 @@ import JSON from './../../assets/province/guangxi.json';  //guangxi.json
                                 }
                             },
                         legend: {
-                                orient: 'vertical',
-                                left: 'left',
+                                orient: 'horizontal',
+                                bottom: 0,
                                 data: ['总数']
                         },    
                         series: [{
@@ -929,15 +943,16 @@ import JSON from './../../assets/province/guangxi.json';  //guangxi.json
                                 left:'60'
                                 },
                                 legend: {
-                                show:true,
-                                selectedMode:'single',    //设置显示单一图例的图形，点击可切换
-                                bottom:10,
-                                left:50,
-                                textStyle:{
-                                color:'#666',
-                                fontSize:12
+                                    show:true,
+                                    selectedMode:'single',    //设置显示单一图例的图形，点击可切换
+                                    bottom:10,
+                                    left:50,
+                                    textStyle:{
+                                    color:'#666',
+                                    fontSize:12,
+                                  
                                 },
-                                itemGap:20,
+                                 itemGap:20,
                                     data:['男','女','未知'],
                                      inactiveColor:'#ccc'
                                 },
@@ -1053,6 +1068,12 @@ import JSON from './../../assets/province/guangxi.json';  //guangxi.json
                deawAgeStructure(id){
                     let echarts = this.$echarts.init(document.getElementById(id));
                     echarts.setOption({
+                             title:{
+                                show:true,
+                                text:'年龄分布',
+                                x:'center',//水平安放位置，默认为'left'，可选为：'center' | 'left' | 'right' | {number}（x坐标，单位px）
+                                y: 'top',
+                            },
                             color: ['#3398DB'],
                             tooltip : {
                                 trigger: 'axis',
@@ -1080,8 +1101,18 @@ import JSON from './../../assets/province/guangxi.json';  //guangxi.json
                                     type : 'value'
                                 }
                             ],
+                            legend: {
+                                orient: 'horizontal',  //横向
+                                padding: [
+                                    5,  // 上
+                                    10, // 右
+                                    5,  // 下
+                                    10, // 左
+                                ],
+                                bottom:0,
+                                data: ['本站','互联网']
+                            },
                             series : [
-                                
                                 {
                                     name:'本站',
                                     type:'bar',
@@ -1112,6 +1143,75 @@ import JSON from './../../assets/province/guangxi.json';  //guangxi.json
                         window.onresize = function(){
                             echarts.resize();
                         }  
+               },
+               deawUserpreferences(id){
+                   //图表自适应
+                   let echarts = this.$echarts.init(document.getElementById(id));
+                   echarts.setOption({
+                            textStyle: {
+                                //fontSize: 20,   // 调节字体大小
+                                
+                            },
+                            title : {
+                                text: '',       // 主标题名称
+                                subtext: '',    // 副标题名称
+                                x:'center'      // 标题的位置
+                            },
+                            tooltip : {
+                                trigger: 'item',
+                                formatter: "{a} <br/>{b} : {c} ({d}%)"
+                            },
+                            legend: {
+                                orient: 'horizontal',         // 标签名称垂直排列
+                                bottom:100,
+                                x: 'center',                //标签的位置
+                                               
+                                data:['公务就餐','智智物业','农业补贴',
+                                     '充值缴费','智智校园','游戏','其他']
+                            },                              // 标签变量名称
+                            toolbox: {
+                                show : true,
+                                feature : {
+                                    mark : {show: true},
+                                    dataView : {show: true,readOnly: true},
+                                    magicType : {
+                                        show: true,
+                                        type: ['pie', 'funnel']
+                                    },
+                                    restore : {show: true},
+                                    saveAsImage : {show: true}          // 保存图片
+                                }
+                            },
+                            calculable : true,
+                            series : [
+                                {
+                                    name:'面积模式',                    // 图表名称
+                                    type:'pie',                         // 图表类型
+                                    radius : [30, 200],                 // 图表内外半径大小
+                                    center : ['50%', '40%'],            // 图表位置
+                                    roseType : 'area',
+                                    label: {
+                                        normal: {
+                                            show: true,
+                                            formatter: '{b}({d}%)'      // 显示百分比
+                                        }
+                                    },
+                                    data:[
+                                        {value:180, name:'公务就餐'},           // 变量对应的具体数据
+                                        {value:180, name:'智智物业'},
+                                        {value:165, name:'农业补贴'},
+                                        {value:151, name:'充值缴费'},
+                                        {value:97, name:'智智校园'},
+                                        {value:81, name:'游戏'},
+                                        {value:29, name:'其他'}
+                                    ]
+                                }
+                            ]
+                        });
+                        //自适应大小
+                        window.onresize = function(){
+                                echarts.resize();
+                        }  
                }
            },
            mounted(){
@@ -1124,7 +1224,7 @@ import JSON from './../../assets/province/guangxi.json';  //guangxi.json
                     this.deawCitymap("map-city");
                     this.deawGender("gender-histogram");
                     this.deawAgeStructure("age-structure");
-                   
+                    this.deawUserpreferences("user-preferences");//用户喜好 玫瑰图
                 }); 
 
               
