@@ -66,7 +66,7 @@
                   </div>
                   <!-- 图表内容区域 -->
                   <div class="chart-contain">
-                        <div id="chartdata" style="width:1200px;height:600px"></div>
+                        <div id="chartdata" style="width:100%;height:600px"></div>
                   </div>
               </el-card>
         </div>
@@ -403,7 +403,11 @@ export default {
           }
         ]
       });
-      
+      //自适应大小
+        let _this = this;
+        window.onresize = function(){
+              _this.charts.resize();
+        }   
     }
   },
   mounted(){

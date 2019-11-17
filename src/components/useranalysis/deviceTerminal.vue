@@ -70,7 +70,7 @@
 
               <!-- 柱状直方图 -->
               <div class="Bar-Chart-contain">
-                  <div id="chartdata" style="width:1200px;height:530px"></div>
+                  <div id="chartdata" style="width:100%;height:600px"></div>
               </div>
 
            </el-card>    
@@ -378,6 +378,10 @@ export default {
                     }
                 ] 
            });
+           //自适应大小
+            window.onresize = function(){
+                charts.resize();
+            }    
     }
   },
   mounted(){

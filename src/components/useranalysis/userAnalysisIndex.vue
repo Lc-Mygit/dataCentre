@@ -549,7 +549,7 @@
 </template>
 
 <script>
-import JSON from './../../assets/province/guangxi.json';  //guangxi.json
+import JSON from './../../assets/province/guangxi.json';  // 广西壮族自治区的 地图  guangxi.json
     export default{
         name: "userAnalysisIndex",
            data() {
