@@ -88,6 +88,7 @@
                     </div>
                     <!-- 右边区域 -->
                     <div class="right-contain"> 
+                          <div> 
                              <el-button-group>
                                 <el-button plain @click="LatestTimeDate('今日')">今日</el-button>
                                 <el-button plain @click="LatestTimeDate('近7天')">近7天</el-button>
@@ -104,10 +105,17 @@
                                 end-placeholder="结束日期"
                                 value-format="yyyy-MM-dd"
                               ></el-date-picker>
+                          </div>   
                               <!--导出-->
-                            <el-tooltip class="item" effect="dark" content="点击按钮下载表格" placement="top">  
-                                <el-button type="primary" icon="el-icon-upload2" @click="downloadTable()" :loading="downloadLoading">导出</el-button>
-                            </el-tooltip>  
+                            <!-- <el-tooltip class="item" effect="dark" content="点击按钮下载表格" placement="top">   -->
+                                <!-- <el-button type="primary" icon="el-icon-upload2" @click="downloadTable()" :loading="downloadLoading">导出</el-button> -->
+                              
+                            <div class="download-button" style="cursor:pointer;" @click="downloadTable()">
+                                  <i style="color:#41a5fd;font-size:30px" class="iconfont icondaochu"></i> 
+                                  <span style="color:#41a5fd;font-size:18px;margin-left:3px;top:-3px;position:relative;">导出</span> 
+                            </div>  
+                              
+                            <!-- </el-tooltip>   -->
                     </div>
                 </div>
                        <!-- 表格内容区域 -->
@@ -472,6 +480,15 @@ export default {
    width: 100%;  
    white-space:nowrap;
 }
+/*导出的位置*/ 
+.table-box .tableBox-head .right-contain{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    white-space: nowrap;
+    width: 560px;
+}
+
 
 .table-box .table-contain{
     margin-top: 25px;

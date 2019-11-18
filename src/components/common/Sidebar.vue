@@ -165,6 +165,19 @@
                             }
                         ]
                     },
+                    //商家分析页面
+                    {
+                        icon: 'iconfont iconshangjiashu',
+                        index: 'businessanalysis',
+                        title: '商家分析',
+                        subs: [ 
+                            {
+                            index: 'salescount',
+                             title: '销售统计'
+                            }, 
+                         ]
+                    },
+                    
                     //数据统计表
                     {
                         icon: 'iconfont iconshuju',

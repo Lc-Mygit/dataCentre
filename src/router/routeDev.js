@@ -50,11 +50,27 @@ var routeDevList = [
     /*数据统计表*/
     {
         path:'/statisticalTable',
-        component: resolve => require(['../components/statisticalTable/statisticalTable.vue'], resolve),
+        component: resolve => require(['../components/statisticalTable/statisticalTable'], resolve),
         meta: {
             title:'数据统计表'
         }
     },
+    //商家分析
+    {
+        path:'/businessanalysis',
+        component: resolve => require(['../components/businessanalysis/businessanalysisIndex'], resolve),
+        meta: {
+            title:'商家分析'
+        }
+    },
+    {
+        path:'/salescount',
+        component: resolve => require(['../components/businessanalysis/salescount'], resolve),
+        meta: {
+            title:'销售统计'
+        }
+    },    
+
 ];
 //=========静态菜单======== 可写死菜单  
 var menuDevList = [

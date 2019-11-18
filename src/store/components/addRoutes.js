@@ -15,9 +15,9 @@ const addRoutes = {
     add_Routes(state, routeParam) {
       let routeList = [];
       //添加默认路由,新用户登陆可以显示首页
-      routeList.push( {
-            name: 'index',
-            path: '/index',
+      routeList.push({
+            name:'index',
+            path:'/index',
             component: resolve => require(['@/components/index.vue'], resolve),
             meta: {
               title: '系统首页'

@@ -630,36 +630,48 @@ import JSON from './../../assets/province/guangxi.json';  // 广西壮族自治�
                         },
                         series: [
                         {
+                            symbol:'circle',    //折点设定为实心点
+                            symbolSize: 10,   //设定实心点的大小
                             name: "智小美",
                             type: "line",
                             stack: "总量1",
                             data: [1200, 2800, 3421, 3564, 3356, 2335, 4203]
                         },
                         {
+                            symbol:'circle',    //折点设定为实心点
+                            symbolSize: 10,   //设定实心点的大小
                             name: "智智小店",
                             type: "line",
                             stack: "总量2",
                             data: [2200, 3232, 4201, 3482, 3156, 3185, 4500]
                         },
                         {
+                            symbol:'circle',    //折点设定为实心点
+                            symbolSize: 10,   //设定实心点的大小
                             name: "智智物业",
                             type: "line",
                             stack: "总量3",
                             data: [2150, 3232, 4201, 3154, 3190, 2330, 3410]
                         },
                         {
+                            symbol:'circle',    //折点设定为实心点
+                            symbolSize: 10,   //设定实心点的大小
                             name: "智小充",
                             type: "line",
                             stack: "总量4",
                             data: [2356, 3332, 4301, 3334, 4390, 5330, 3320]
                         },
                         {
+                            symbol:'circle',    //折点设定为实心点
+                            symbolSize: 10,   //设定实心点的大小
                             name: "智智校园",
                             type: "line",
                             stack: "总量5",
                             data: [3820, 2932, 4901, 3934, 2290, 3330, 4320]
                         },
                         {
+                            symbol:'circle',    //折点设定为实心点
+                            symbolSize: 10,   //设定实心点的大小
                             name: "单位职工",
                             type: "line",
                             stack: "总量6",
@@ -950,7 +962,7 @@ import JSON from './../../assets/province/guangxi.json';  // 广西壮族自治�
                                     textStyle:{
                                     color:'#666',
                                     fontSize:12,
-                                  
+                                    data:["男","女","未知"]
                                 },
                                  itemGap:20,
                                     data:['男','女','未知'],
@@ -960,26 +972,23 @@ import JSON from './../../assets/province/guangxi.json';  // 广西壮族自治�
                                     {
                                         type: 'category',
                                         data: ['男', '女', '未知'],
-                                  
                                         axisPointer: {
                                             type: 'shadow'
-
                                         },
                                  
-                                          axisTick: {
+                                     axisTick: {
                                             show:false,
                                             interval: 0
-                               },
+                                    },
 
                                     }
                                 ],
 
-                            //设置两个y轴，左边显示数量，右边显示概率
-
+                                //设置两个y轴，左边显示数量，右边显示概率
                                 yAxis: [
                                     {
                                         type: 'value',
-                            //             name: '数量',
+                            //            name: '数量',
                                         show:true,
                                        interval: 2000,
                                     },
@@ -1446,7 +1455,7 @@ import JSON from './../../assets/province/guangxi.json';  // 广西壮族自治�
     .Userportrait-Box .map-content,.Userportrait-Box .gender-content{
         width: 100%;
         height: 740px;
-        border: 1px dashed #369bf3;
+       
     }
     
 </style>

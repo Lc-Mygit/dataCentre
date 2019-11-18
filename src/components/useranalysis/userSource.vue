@@ -64,39 +64,48 @@
     <!-- 表格统计区域 -->
     <div class="table-Box">
       <el-card shadow="hover">
-        <el-row :gutter="10" type="flex" justify="space-between">
-          <el-col :span="2" :xs="10" :sm="12" :md="6" :lg="2">
-            <el-select v-model="selectTableVal" clearable placeholder="请选择"  style="width:130px">
-              <el-option
-                v-for="item in channelArr"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
-              ></el-option>
-            </el-select>
-          </el-col>
+       
+        <div class="haed-contain"> 
+
+          <div> 
+              <el-select v-model="selectTableVal" clearable placeholder="请选择"  style="width:130px">
+                <el-option
+                  v-for="item in channelArr"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value"
+                ></el-option>
+              </el-select>
+          </div>
           <!-- 今日，近七天，近30天 -->
-          <el-col :span="12" :xs="20" :sm="20" :md="16" :lg="12">
-            <el-button-group>
-              <el-button plain @click="LatestTimeDate('今日')">今日</el-button>
-              <el-button plain @click="LatestTimeDate('近7天')">近7天</el-button>
-              <el-button plain @click="LatestTimeDate('近30天')">近30天</el-button>
-            </el-button-group>
-            <!-- 日期选择范围 -->
-            <el-date-picker
-              style="width:230px"
-              v-model="dateRangeValue"
-              type="daterange"
-              range-separator="至"
-              start-placeholder="开始日期"
-              end-placeholder="结束日期"
-              value-format="yyyy-MM-dd"
-            ></el-date-picker>
-            <!--导出-->
-            <el-button type="primary" icon="el-icon-upload2" @click="downloadTable()" :loading="downloadLoading">导出</el-button>
-          
-          </el-col>
-        </el-row>
+          <div class="today-and-download">
+              <div> 
+                  <el-button-group>
+                    <el-button plain @click="LatestTimeDate('今日')">今日</el-button>
+                    <el-button plain @click="LatestTimeDate('近7天')">近7天</el-button>
+                    <el-button plain @click="LatestTimeDate('近30天')">近30天</el-button>
+                  </el-button-group>
+                  <!-- 日期选择范围 -->
+                  <el-date-picker
+                    style="width:230px"
+                    v-model="dateRangeValue"
+                    type="daterange"
+                    range-separator="至"
+                    start-placeholder="开始日期"
+                    end-placeholder="结束日期"
+                    value-format="yyyy-MM-dd"
+                  ></el-date-picker>
+                  <!--导出-->
+                </div>
+                 <div class="download-button" @click="downloadTable()">
+                        <i style="color:#41a5fd;font-size:30px" class="iconfont icondaochu"></i> 
+                        <span style="color:#41a5fd;font-size:18px;margin-left:3px;top:-3px;position:relative;">导出</span> 
+                 </div>  
+                <!-- <el-button type="primary" icon="el-icon-upload2" @click="downloadTable()" :loading="downloadLoading">导出</el-button> -->
+          </div>
+        </div>  
+       
+      
         <!-- 表格内容区域 -->
         <div class="table-contain">
           <el-row>
@@ -339,36 +348,48 @@ export default {
         },
         series: [
           {
+            symbol:'circle',     //折点设定为实心点
+            symbolSize: 10,   //设定实心点的大小
             name: "智小美",
             type: "line",
             stack: "总量1",
             data: [1200, 2800, 3421, 3564, 3356, 2335, 4203]
           },
           {
+            symbol:'circle',     //折点设定为实心点
+            symbolSize: 10,   //设定实心点的大小
             name: "智智小店",
             type: "line",
             stack: "总量2",
             data: [2200, 3232, 4201, 3482, 3156, 3185, 4500]
           },
           {
+            symbol:'circle',     //折点设定为实心点
+            symbolSize: 10,   //设定实心点的大小
             name: "智智物业",
             type: "line",
             stack: "总量3",
             data: [2150, 3232, 4201, 3154, 3190, 2330, 3410]
           },
           {
+            symbol:'circle',    //折点设定为实心点
+            symbolSize: 10,   //设定实心点的大小
             name: "智小充",
             type: "line",
             stack: "总量4",
             data: [2356, 3332, 4301, 3334, 4390, 5330, 3320]
           },
           {
+            symbol:'circle',    //折点设定为实心点
+            symbolSize: 10,   //设定实心点的大小
             name: "智智校园",
             type: "line",
             stack: "总量5",
             data: [3820, 2932, 4901, 3934, 2290, 3330, 4320]
           },
           {
+            symbol:'circle',    //折点设定为实心点
+            symbolSize: 10,   //设定实心点的大小
             name: "单位职工",
             type: "line",
             stack: "总量6",
@@ -429,9 +450,26 @@ export default {
 }
 .userSource-Box .table-Box {
   margin-top: 15px;
+  
 }
+
+.userSource-Box .table-Box .haed-contain{
+    display: flex;
+    flex-direction: row;
+    justify-content:space-between;
+    white-space: nowrap;
+}
+
+
 .userSource-Box .table-contain{
-  margin-top: 30px;
+  margin: 30px 0 30px 0;
+}
+.userSource-Box .today-and-download{
+  width: 570px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  white-space: nowrap;
 }
 /* .Usertable .el-table th.is-sortable{ 
   background-color: #f5f5f5;
@@ -443,6 +481,9 @@ export default {
   display: flex;
   flex-direction:row;
   justify-content: space-between;
+}
+.download-button{
+  cursor: pointer;
 }
 
 </style>
